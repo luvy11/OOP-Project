@@ -1,0 +1,269 @@
+import tkinter as tk
+import sqlite3
+from tkinter import *
+from tkinter import ttk
+from tkinter import Canvas, Scrollbar, filedialog, messagebox
+from tkcalendar import *
+from PIL import Image, ImageTk
+
+# Creating main window
+window = tk.Tk()
+window.geometry("1920x1080")
+window.title("REGISTRATION PORTAL")
+
+con = sqlite3.connect("partb.db")
+
+
+class DesignGUIInterface():
+    # Method to create a title label
+    def title(self, x, y):
+        label = tk.Label(main_frame,bg='#065494', text="EMPLOYEE PERSONAL INFORMATION", fg='white' ,font=("Arial", 50 ,"bold"))
+        label.place(x=x, y=y)
+    def frame1(self, x, y):
+        # Function to create frames
+        self.frame = Frame(main_frame, width=1520, height=270, border=0, bg='#e4f0fc')
+        self.frame.place(x=x, y=y)
+    def frame2(self, x, y, width, bg, height):
+        # Function to create second frame
+        self.frame = Frame(main_frame, width=width, height=height, border=0, bg=bg)
+        self.frame.place(x=x, y=y)
+    def frame3(self, x, y, width, bg, height):
+        # Function to create second frame
+        self.frame = Frame(main_frame, width=width, height=height, border=0, bg=bg)
+        self.frame.place(x=x, y=y)
+    def image_design(self, image_location, x, y, length, width):
+        # Function to display image
+        self.length = length
+        self.width = width
+        self.image_location = image_location
+        self.image = Image.open(image_location)
+        self.bck_pic = ImageTk.PhotoImage(self.image.resize((length, width)))
+        self.lbl = Label(window, image=self.bck_pic)
+        self.lbl.place(x=x, y=y)
+    def label_design1(self, x, y, text, font=("Century Gothic", 20, "bold"), bg='#e4f0fc', fg="black"):
+        label = tk.Label(main_frame, text=text, font=font, bg=bg, fg=fg)
+        label.place(x=x, y=y)
+    def label_design2(self, x, y, text, font=("Century Gothic", 10, "bold"), bg='e4f0fc', fg='#black'):
+        label = tk.Label(main_frame, text=text, font=font, bg=bg, fg=fg)
+        label.place(x=x, y=y)
+    def label_design3(self, x, y, text, font=("Century Gothic", 23, "bold"), bg='#065494', fg="white"):
+        label = tk.Label(main_frame, text=text, font=font, bg=bg, fg=fg)
+        label.place(x=x, y=y)
+
+    def textbox_design(self, x, y, width=16, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design2(self, x, y, width=15, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design3(self, x, y, width=9, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design4(self, x, y, width=48, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design5(self, x, y, width=53, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design6(self, x, y, width=39, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design7(self, x, y, width=81, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def textbox_design8(self, x, y, width=40, font=("Arial", 25), border=3):
+        textbox = tk.Entry(main_frame, width=width, font=font, border=border)
+        textbox.place(x=x, y=y)
+        return textbox
+
+    def button_design(self, x, y, text, width, bg, fg, command):
+        button = tk.Button(main_frame, text=text, width=width, bg=bg, fg=fg, command=command)
+        button.place(x=x, y=y)
+    def button_design2(self, x, y):
+        button = tk.Button(main_frame, text="SEARCH", bg="#0C385E", width=9, fg="white")
+        button.place(x=x, y=y)
+
+# Instantiate the EmployeeInfo class
+GUIDesign = DesignGUIInterface()
+
+scrollbar_y = Scrollbar(window, orient=VERTICAL)
+scrollbar_y.pack(side=RIGHT, fill=Y)
+# Create a canvas for displaying content
+my_canvas = Canvas(window, width=1920, height=3000, yscrollcommand=scrollbar_y.set)
+my_canvas.pack(side=LEFT, fill=BOTH)
+# Configure scrollbars to work with the canvas
+scrollbar_y.config(command=my_canvas.yview)
+# Load background image and display it on the canvas
+background_image = Image.open("C:\\Users\\USER\\PycharmProjects\\pusa\\image\\Calcifer.jpg")
+background_photo = ImageTk.PhotoImage(background_image)
+my_canvas.create_image(0, 0, anchor=tk.NW, image=background_photo)
+# Create a main frame inside the canvas
+main_frame = Frame(my_canvas, width=1600, height=2067, bg="#065494")
+my_canvas.create_window((160, 393), window=main_frame, anchor=tk.NW)
+# Function to adjust canvas size when resized
+def on_canvas_configure(event):
+    main_frame.itemconfig(event, width=event.width, height=event.height, anchor='nw')
+# Configure vertical scrollbar to update scroll region
+scrollbar_y.bind('<Configure>', lambda event: my_canvas.configure(scrollregion=my_canvas.bbox("all")))
+# Bind scrollbar movement to canvas scrolling
+scrollbar_y.bind("<B1-Motion>", lambda event: my_canvas.yview("moveto", event.y / my_canvas.winfo_height()))
+
+
+# Create frames
+GUIDesign.title(x=200, y=80)
+GUIDesign.frame1(x=40, y=370)
+GUIDesign.frame1(x=40, y=660)
+GUIDesign.frame2(x=40, y=980, width=1520, height=270, bg='#e4f0fc')
+GUIDesign.frame3(x=40, y=1300, width=1520, height=600, bg='#e4f0fc')
+
+# Display frame1 labels
+FirstNameLabel = GUIDesign.label_design1(430, 400, 'First Name')
+MiddleNameLabel = GUIDesign.label_design1(740, 400, 'Middle Name')
+LastNameLabel = GUIDesign.label_design1(1050, 400, 'Last Name')
+Suffix = GUIDesign.label_design1(1360, 400, 'Suffix')
+DateOfBirthLabel = GUIDesign.label_design1(450, 520, 'Date of Birth')
+GenderLabel = GUIDesign.label_design1(760, 520, 'Gender')
+NationalityLabel = GUIDesign.label_design1(1050, 520, 'Nationality')
+CivilStatusLabel = GUIDesign.label_design1(1230, 520, 'Civil Status')
+NoFileChoosen = GUIDesign.label_design1(210, 510, 'No File Choosen ')
+
+# Create textboxes for frame1
+FirstNameEntry = GUIDesign.textbox_design(x=430, y=450)
+MiddleNameEntry = GUIDesign.textbox_design(x=740, y=450)
+LastNameEntry = GUIDesign.textbox_design(x=1050, y=450)
+SuffixEntry = GUIDesign.textbox_design3(x=1360, y=450)
+DateOfBirthEntry = GUIDesign.textbox_design(x=450, y=570)
+GenderEntry = GUIDesign.textbox_design2(x=760, y=570)
+NationalityEntry = GUIDesign.textbox_design3(x=1050, y=570)
+CivilStatusEntry = GUIDesign.textbox_design(x=1230, y=570)
+
+# Display frame2 labels
+DepartmentLabel = GUIDesign.label_design1(70, 700, 'Department')
+DesignationLabel = GUIDesign.label_design1(957, 700, 'Designation')
+QualifiedDepStatusLabel = GUIDesign.label_design1(1250, 700, 'Qual Dep Status')
+EmployeeStatusLabel = GUIDesign.label_design1(70, 810, 'Employee Status')
+PaydateLabel = GUIDesign.label_design1(1047, 810, 'Paydate')
+EmployeeNumberLabel = GUIDesign.label_design1(1230, 810, 'Employee Number')
+
+# Create textboxes for frame2
+DepartmentEntry = GUIDesign.textbox_design4(x=70, y=750)
+DesignationEntry = GUIDesign.textbox_design2(x=957, y=750)
+QualifiedDepStatusEntry = GUIDesign.textbox_design2(x=1250, y=750)
+EmployeeStatusEntry = GUIDesign.textbox_design5(x=70, y=860)
+PaydateEntry = GUIDesign.textbox_design3(x=1047, y=860)
+EmployeeNumberEntry = GUIDesign.textbox_design(x=1230, y=860)
+
+# Display frame3 labels
+ContactInfo = GUIDesign.label_design3(40, 930, 'Contact Info')
+ContactNumber = GUIDesign.label_design1(70, 1010, 'Contact Number')
+Email = GUIDesign.label_design1(820, 1010, 'Email')
+OtherSocialMedia = GUIDesign.label_design1(70, 1130, 'Other Social Media')
+SocialMediaAccountId = GUIDesign.label_design1(820, 1130, 'Social Media Account')
+
+# Create textboxes for frame3
+ContactNumberEntry = GUIDesign.textbox_design6(x=70, y=1060)
+EmailEntry = GUIDesign.textbox_design6(x=820, y=1060)
+OtherSocialMediaEntry = GUIDesign.textbox_design6(x=70, y=1180)
+SocialMediaAccountIdEntry = GUIDesign.textbox_design6(x=820, y=1180)
+
+# Display frame4 labels
+Address = GUIDesign.label_design3(40, 1250, 'Address')
+AddressLine1 = GUIDesign.label_design1(70, 1330, 'Address Line1')
+AddressLine2 = GUIDesign.label_design1(70, 1440, 'Address Line2')
+CityMunicipality = GUIDesign.label_design1(70, 1560, 'City/Municipality')
+StateProvince = GUIDesign.label_design1(820, 1560, 'State/Province')
+Country = GUIDesign.label_design1(70, 1670, 'Country')
+ZipCode = GUIDesign.label_design1(820, 1670, 'Zip Code')
+PicturePath = GUIDesign.label_design1(70, 1770, 'Picture Path')
+
+AddressLine1Entry = GUIDesign.textbox_design7(x=70, y=1380)
+AddressLine2Entry = GUIDesign.textbox_design7(x=70, y=1490)
+CityMunicipalityEntry = GUIDesign.textbox_design8(x=70, y=1610)
+StateProvinceEntry = GUIDesign.textbox_design8(x=810, y=1610)
+CountryEntry = GUIDesign.textbox_design8(x=70, y=1720)
+ZipCodeEntry = GUIDesign.textbox_design8(x=810, y=1720)
+PicturePathEntry = GUIDesign.textbox_design7(x=70, y=1820)
+
+# Save function
+def save():
+    query = """INSERT INTO empptbl (First_Name, Middle_Name, Last_Name, Suffix, Date_Of_Birth, Gender,
+                                    Nationality, Civil_Status, Department, Designation,
+                                    Qualified_Dep_Status ,Employee_Status ,Paydate , Employee_Number,
+                                    Contact_Number, Email, Other_Social_Media, Social_Media_Account_Id,
+                                    Address_Line_1 ,City_Municipality ,Address_Line_2 ,Country , Zip_Code, State_Province,
+                                    Picture_Path) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+
+    query_tuple = (FirstNameEntry.get(), MiddleNameEntry.get(), LastNameEntry.get(), SuffixEntry.get(), DateOfBirthEntry.get(), GenderEntry.get(),
+                   NationalityEntry.get(), CivilStatusEntry.get(), DepartmentEntry.get(), DesignationEntry.get(), QualifiedDepStatusEntry.get(),
+                   EmployeeStatusEntry.get(), PaydateEntry.get(), EmployeeNumberEntry.get(), ContactNumberEntry.get(), EmailEntry.get(), OtherSocialMediaEntry.get(),
+                   SocialMediaAccountIdEntry.get(), AddressLine1Entry.get(), AddressLine2Entry.get(), CityMunicipalityEntry.get(), StateProvinceEntry.get(), CountryEntry.get(),
+                   ZipCodeEntry.get(), PicturePathEntry.get())
+
+    con.execute(query, query_tuple)
+    con.commit()
+
+    FirstNameEntry.delete(0, 'end')
+    MiddleNameEntry.delete(0, 'end')
+    LastNameEntry.delete(0, 'end')
+    SuffixEntry.delete(0, 'end')
+    DateOfBirthEntry.delete(0, 'end')
+    GenderEntry.delete(0, 'end')
+    NationalityEntry.delete(0, 'end')
+    CivilStatusEntry.delete(0, 'end')
+    DepartmentEntry.delete(0, 'end')
+    DesignationEntry.delete(0, 'end')
+    QualifiedDepStatusEntry.delete(0, 'end')
+    EmployeeStatusEntry.delete(0, 'end')
+    PaydateEntry.delete(0, 'end')
+    EmployeeNumberEntry.delete(0, 'end')
+    ContactNumberEntry.delete(0, 'end')
+    EmailEntry.delete(0, 'end')
+    OtherSocialMediaEntry.delete(0, 'end')
+    SocialMediaAccountIdEntry.delete(0, 'end')
+    AddressLine1Entry.delete(0, 'end')
+    AddressLine2Entry.delete(0, 'end')
+    CityMunicipalityEntry.delete(0, 'end')
+    CountryEntry.delete(0, 'end')
+    StateProvinceEntry.delete(0, 'end')
+    ZipCodeEntry.delete(0, 'end')
+    PicturePathEntry.delete(0, 'end')
+
+    # Close the database connection when the application closes
+    con.close()
+
+button = tk.Button(main_frame, width=10, height=1, pady=1, text='Choose File', bg='#0C385E', fg='white', border=1, font=('Arial', 17))
+button.place(x=70, y=510)
+
+# Add buttons and image
+button2 = tk.Button(main_frame, width=12, height=1, pady=1, text='Save', command=save, bg='#88DDDF', fg='black',  border=1, font=('Arial', 17))
+button2.place(x=40, y=1920)
+
+
+def cancel():
+    window.quit()
+
+button3 = tk.Button(main_frame, width=12, height=1, pady=1, text='Cancel', bg='#5FB2DF', fg='black', border=1, font=('Arial', 17), command=cancel)
+button3.place(x=220, y=1920)
+
+
+image = Image.open('C:\\Users\\USER\\PycharmProjects\\pusa\\image\\Calcifer.jpg')
+EmployeeImage = ImageTk.PhotoImage(image.resize((210, 230)))
+lbl = Label(main_frame, image=EmployeeImage, border=9, bg='#0C385E')
+lbl.place(x=70, y=250)
+
+
+window.mainloop()
